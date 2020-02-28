@@ -1,4 +1,4 @@
 {
     "python.pythonPath": "/home/thedoctor/anaconda3/envs/wres-api/bin/python",
-    "terminal.integrated.fontFamily": "Menlo for Powerline"
+    "terminal.integrated.fontFamily": "monospace"
 }
