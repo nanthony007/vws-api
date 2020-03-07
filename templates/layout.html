@@ -27,6 +27,7 @@
             <li class="nav-item">
                 <a class="nav-link text-light" href="/contact">Contact</a>
             </li>
+            <!-- Checks if user logged in -->
             {% if g.user %}
             <li class="nav-item">
                 <a class="nav-link text-light" href="/logout">Logout</a>
@@ -38,6 +39,7 @@
 
     <body class="bg-dark">
         <div class="container">
+            <!-- Renders messages from backend if exist -->
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -50,6 +52,7 @@
                 {% endfor %}
             {% endif %}
             {% endwith %}
+            
             <!-- Jinja blocks for extension later -->
             {% block body %}
             {% endblock %}

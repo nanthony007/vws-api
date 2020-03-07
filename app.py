@@ -31,18 +31,21 @@ class User(db.Model):
 def home():
     if request.method == 'POST':
         username = request.form['username']
-        user = User.query.filter_by(username=username).first()
+        user = User.query.filter_by(username=username).first() # Searches for user
 
+        # If user, clear session and set as active user
         if user is not None:
             session.clear()
             session['user_id'] = user.id
-            flash('Login succesful.', 'success')
+            flash('Login succesful.', 'success') # Flash message to frontend
             return redirect(url_for('home'))
 
+        # If not valid user, flash message to frontend to try again
         elif user is None:
             flash('Invalid username. Please try again.', 'danger')
             return render_template('home.html')
 
+    # Get user info if exists and save in global 'g' variable
     elif request.method == 'GET':
         user_id = session.get('user_id')
         if user_id is None:
@@ -53,6 +56,7 @@ def home():
 
 @app.route('/about')
 def about():
+    # Get user info if exists and save in global 'g' variable
     user_id = session.get('user_id')
     if user_id is None:
         g.user = None
@@ -62,6 +66,7 @@ def about():
 
 @app.route('/usage')
 def usage():
+    # Get user info if exists and save in global 'g' variable
     user_id = session.get('user_id')
     if user_id is None:
         g.user = None
@@ -71,6 +76,7 @@ def usage():
 
 @app.route('/contact')
 def contact():
+    # Get user info if exists and save in global 'g' variable
     user_id = session.get('user_id')
     if user_id is None:
         g.user = None
@@ -80,6 +86,7 @@ def contact():
 
 @app.route('/logout')
 def logout():
+    # Clears session of user info for logout and flashes message to frontend
     session.clear()
     flash('Logout successful', 'success')
     return render_template('logout.html')
