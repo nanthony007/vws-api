@@ -3,13 +3,23 @@
 {% block body %}
 
 <div class="container">
-    <h1>About</h1>
-    <hr />
-    <p>
-        This page fucntions as an introduction to me and my background.
-        Focus is given to my experince and personal objectives in creating
-        this applicaiton.  For information on API usage please see the 
-        <a href="/usage">API Usage</a> page.
+    <h1 class="text-info">About</h1>
+    <hr class="bg-warning" />
+    <p class="text-white">
+        For information on API usage please see the 
+        <a href="/usage" class="text-warning">API Usage</a> page.
+    <br />
+    <span class="text-warning">---</span>
+    <br />
+        This site was developed for the purpose of providing wrestler statistcs 
+        to developers.  Over time, methods will be added to the API for more 
+        thorough access to statistics.  
+        <br />
+        An API was chosen to allow faster/simpler access to data without directly 
+        accessing the database whihc would require authorization and conection strings. 
+        On that note, DELETE, PUT, and POST methods will almost certainly be unavailable 
+        as the primary purpose of this API is to grant data access via GET methods. Over 
+        time these methods will be expanded upon to improve performance.
     </p>
 </div>
 
