@@ -1,6 +1,5 @@
 *.pyc
 __pycache__/*
-.ipynb_checkpoints
 
 instance/
 
@@ -12,5 +11,4 @@ dist/
 build/
 *.egg-info/
 
-.vscode/*
-.vscode/settings.json
+.vscode
