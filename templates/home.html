@@ -2,41 +2,39 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<div class="container">
-    <h1 class="text-info">Home</h1>
-    <hr class="bg-warning" />
-    <h6 class="text-info">Folkstyle wrestling API access</h6>
-    <div class="row">
-        <div class="col mx-auto my-auto">
-            <p class="text-white">
-                This site will have minimal content most relevant is the 
-                <a href="/usage" class="text-warning">API Usage</a> page which details how to access and 
-                use the API.
-            </p>
-            <small class="text-white">
-                Built using Python, Flask-RESTful and SQL-Alchemy
-                <br />
-                Developed and maintained by Nicholas Anthony
-            </small>
-        </div>
-        <div class="col mx-auto my-auto">
-            <!-- Checks if user logged in -->
-            {% if not g.user %}
+<h1 class="text-info">Home</h1>
+<hr class="bg-warning" />
+<h6 class="text-info">Freestyle wrestling API access for Veritas Wrestling Systems data</h6>
+<div class="row">
+    <div class="col mx-auto my-auto">
+        <p class="text-white">
+            This site will have minimal content most relevant is the 
+            <a href="/usage" class="text-warning">API Usage</a> page which details how to access and 
+            use the API.
+        </p>
+        <small class="text-white">
+            Built using Python, Flask-RESTful and SQL-Alchemy
             <br />
-            <form method="post">
-                <div class="input-group">
-                    <div class="form-group">
-                        <label for="username" class="text-white">Username</label>
-                        <input name="username" class="form-control" id="username" placeholder="Enter username" required>
-                        <small id="usernameHelp" class="form-text text-secondary">
-                            Case sensitive.
-                        </small>
-                    </div>
+            Developed and maintained by Nicholas Anthony
+        </small>
+    </div>
+    <div class="col mx-auto my-auto">
+        <!-- Checks if user logged in -->
+        {% if not g.user %}
+        <br />
+        <form method="post">
+            <div class="input-group">
+                <div class="form-group">
+                    <label for="username" class="text-white">Username</label>
+                    <input name="username" class="form-control" id="username" placeholder="Enter username" required>
+                    <small id="usernameHelp" class="form-text text-secondary">
+                        Case sensitive.
+                    </small>
                 </div>
-                <button class="btn btn-outline-info" type="submit">Login</button>
-            </form>
-        {% endif %}
-        </div>
+            </div>
+            <button class="btn btn-outline-info" type="submit">Login</button>
+        </form>
+    {% endif %}
     </div>
 </div>
 
