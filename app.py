@@ -1,7 +1,8 @@
 import os
-from flask import Flask
-from flask import flash, g, redirect, render_template, request, session, url_for
+import pandas as pd
+from flask import Flask, jsonify, flash, g, redirect, render_template, request, session, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_restful import Resource, Api
 
 # Configuration lines
 app = Flask(__name__)
@@ -11,8 +12,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["SECRET_KEY"] = 'dev'
-db = SQLAlchemy(app)
-
+db = SQLAlchemy(app)  # connects database
+api = Api(app)  # configures api
+df = pd.read_csv('VWS.csv')
 
 ### MODELS SECTION
 # User table with fields
@@ -92,4 +94,27 @@ def logout():
     return render_template('logout.html')
 
 
+### API SECTION
+# Get list of teams
+class TeamList(Resource):
+    def get(self):
+        df_teams = sorted(df.Team1.unique())
+        return {i:x for i,x in enumerate(df_teams)}
 
+# Get list of wrestlers
+class WrestlerList(Resource):
+    def get(self):
+        df_wrestlers = sorted(df.WID.unique())
+        return {i:x for i,x in enumerate(df_wrestlers)}
+
+# Get stats for a wrestler
+class WrestlerStats(Resource):
+    def get(self, wid):
+        wid_changed = wid.replace('-', ' ').title()
+        df_wrestler_stats = df.groupby('WID').mean().loc[wid_changed]
+        return df_wrestler_stats.to_json(orient='index', double_precision=2)
+
+# Add resources to api
+api.add_resource(TeamList, '/api/v1/teams')
+api.add_resource(WrestlerList, '/api/v1/wrestlers')
+api.add_resource(WrestlerStats, '/api/v1/wrestlerstats/<string:wid>')
