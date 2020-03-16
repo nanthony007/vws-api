@@ -112,7 +112,7 @@ class WrestlerStats(Resource):
     def get(self, wid):
         wid_changed = wid.replace('-', ' ').title()
         df_wrestler_stats = df.groupby('WID').mean().loc[wid_changed]
-        return df_wrestler_stats.to_json(orient='index', double_precision=2)
+        return dict(zip(df_wrestler_stats.keys(), df_wrestler_stats.values.round(2)))
 
 # Add resources to api
 api.add_resource(TeamList, '/api/v1/teams')
