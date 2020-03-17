@@ -28,7 +28,7 @@ GET list of wrestlers: '/wrestlers'
 
 GET list of teams: '/teams'
 
-GET stats for one wrestler: 'wrestlerstats/<wid:string>'
+GET stats for one wrestler: 'wrestlerstats/\<wid:string\>'
 Translate WID into url-compliant version (Anthony Florida 141 becomes anthony-florida-141)
 
 ---
