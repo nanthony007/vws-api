@@ -21,7 +21,15 @@ On Windows:
 Then a simple `flask run` and view `localhost:5000`.
 
 ---
-> API documentation here!!!
+### API Documentation
+Main url: https://folkstyle-wrestler-api.herokuapp.com/api/v1
+
+GET list of wrestlers: '/wrestlers'
+
+GET list of teams: '/teams'
+
+GET stats for one wrestler: 'wrestlerstats/<wid:string>'
+Translate WID into url-compliant version (Anthony Florida 141 becomes anthony-florida-141)
 
 ---
 
