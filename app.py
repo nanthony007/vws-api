@@ -11,7 +11,7 @@ api = Api(app, version='1.1', title='Vertias Wrestling System API',
     description='API for VWS freestyle wresting data.'
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 db = SQLAlchemy(app)
 tables_dict = {
     'wrestler': 'vws_main_fs_wrestler',
