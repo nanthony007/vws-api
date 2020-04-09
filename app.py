@@ -1,120 +1,66 @@
 import os
 import pandas as pd
-from flask import Flask, jsonify, flash, g, redirect, render_template, request, session, url_for
+from flask import Flask, jsonify, request
+from flask_restplus import Api, Resource, fields
 from flask_sqlalchemy import SQLAlchemy
-from flask_restful import Resource, Api
+from sqlalchemy import func
 
 # Configuration lines
 app = Flask(__name__)
-db_path = os.path.join(os.path.dirname(__file__), 'database.db')
-db_uri = 'sqlite:///{}'.format(db_path)
-app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-app.config["TEMPLATES_AUTO_RELOAD"] = True
+api = Api(app, version='1.1', title='Vertias Wrestling System API',
+    description='API for VWS freestyle wresting data.'
+)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config["SECRET_KEY"] = 'dev'
-db = SQLAlchemy(app)  # connects database
-api = Api(app)  # configures api
-df = pd.read_csv('VWS.csv')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE')
+db = SQLAlchemy(app)
+tables_dict = {
+    'wrestler': 'vws_main_fs_wrestler',
+    'team': 'vws_main_fs_team',
+    'match': 'vws_main_fs_match',
+    'timeseries': 'vws_main_fs_ts',
+}
 
-### MODELS SECTION
-# User table with fields
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-
-    def __repr__(self):
-        return '<User %r>' % self.username
-
-
-### ROUTES SECTION
-# Home page route, renders home.html template
-@app.route('/', methods=('POST', 'GET'))
-def home():
-    if request.method == 'POST':
-        username = request.form['username']
-        user = User.query.filter_by(username=username).first() # Searches for user
-
-        # If user, clear session and set as active user
-        if user is not None:
-            session.clear()
-            session['user_id'] = user.id
-            flash('Login succesful.', 'success') # Flash message to frontend
-            return redirect(url_for('home'))
-
-        # If not valid user, flash message to frontend to try again
-        elif user is None:
-            flash('Invalid username. Please try again.', 'danger')
-            return render_template('home.html')
-
-    # Get user info if exists and save in global 'g' variable
-    elif request.method == 'GET':
-        user_id = session.get('user_id')
-        if user_id is None:
-            g.user = None
-        else:
-            g.user = User.query.filter_by(id=user_id).first()
-        return render_template('home.html')
-
-@app.route('/about')
-def about():
-    # Get user info if exists and save in global 'g' variable
-    user_id = session.get('user_id')
-    if user_id is None:
-        g.user = None
-    else:
-        g.user = User.query.filter_by(id=user_id).first()
-    return render_template('about.html')
-
-@app.route('/usage')
-def usage():
-    # Get user info if exists and save in global 'g' variable
-    user_id = session.get('user_id')
-    if user_id is None:
-        g.user = None
-    else:
-        g.user = User.query.filter_by(id=user_id).first()
-    return render_template('usage.html')
-
-@app.route('/contact')
-def contact():
-    # Get user info if exists and save in global 'g' variable
-    user_id = session.get('user_id')
-    if user_id is None:
-        g.user = None
-    else:
-        g.user = User.query.filter_by(id=user_id).first()
-    return render_template('contact.html')
-
-@app.route('/logout')
-def logout():
-    # Clears session of user info for logout and flashes message to frontend
-    session.clear()
-    flash('Logout successful', 'success')
-    return render_template('logout.html')
-
+# Reflects tables for GET requests only!
+wrestlers = db.Table(tables_dict['wrestler'], db.metadata, autoload=True, autoload_with=db.engine)
+teams = db.Table(tables_dict['team'], db.metadata, autoload=True, autoload_with=db.engine)
+matches = db.Table(tables_dict['match'], db.metadata, autoload=True, autoload_with=db.engine)
+timeseries = db.Table(tables_dict['timeseries'], db.metadata, autoload=True, autoload_with=db.engine)
 
 ### API SECTION
-# Get list of teams
-class TeamList(Resource):
-    def get(self):
-        df_teams = sorted(df.Team1.unique())
-        return {i:x for i,x in enumerate(df_teams)}
+#Get info for one team
+@api.route('/v1/team/<string:teamname_slug>/info')
+class TeamInfo(Resource):
+    def get(self, teamname_slug):
+        q = db.session.query(teams).filter_by(name=func.upper(teamname_slug)
+            ).first_or_404(description=f"There is no team data for slug: {teamname_slug}")
+        return jsonify(name=q.name) 
 
-# Get list of wrestlers
-class WrestlerList(Resource):
-    def get(self):
-        df_wrestlers = sorted(df.WID.unique())
-        return {i:x for i,x in enumerate(df_wrestlers)}
+#Get info for one wrestler
+@api.route('/v1/wrestler/<string:name_slug>/info')
+class WrestlerInfo(Resource):
+    def get(self, name_slug):
+        q = db.session.query(wrestlers).filter_by(slug=name_slug
+            ).first_or_404(description=f"There is no athlete data for slug: {name_slug}")
+        return jsonify(name=q.name, team=q.team_id, rating=q.rating, slug=q.slug) 
 
-# Get stats for a wrestler
+# Get average stats for a single wrestler
+@api.route('/v1/wrestler/<string:name_slug>/stats')
 class WrestlerStats(Resource):
-    def get(self, wid):
-        wid_changed = wid.replace('-', ' ').title()
-        df_wrestler_stats = df.groupby('WID').mean().loc[wid_changed]
-        return dict(zip(df_wrestler_stats.keys(), df_wrestler_stats.values.round(2)))
+    def get(self, name_slug):
+        name = ' '.join(n for n in name_slug.split('-'))
+        q = db.session.query(
+            func.avg(matches.c.vs), 
+            func.avg(matches.c.npf), 
+            func.avg(matches.c.focus_score),
+            func.avg(matches.c.opp_score),
+            ).group_by(matches.c.focus_id).filter(
+                func.lower(matches.c.focus_id) == name
+                    ).first_or_404(description=f"There is no team data for slug: {name_slug}")
+                    
+        return jsonify(
+            avg_vs=float(q[0]), 
+            avg_npf=float(q[1]),
+            avg_points=float(q[2]),
+            avg_opp_points=float(q[3]),
+        ) 
 
-# Add resources to api
-api.add_resource(TeamList, '/api/v1/teams')
-api.add_resource(WrestlerList, '/api/v1/wrestlers')
-api.add_resource(WrestlerStats, '/api/v1/wrestlerstats/<string:wid>')
