@@ -62,6 +62,12 @@ func sum(array []float64) float64 {
 }
 
 func main() {
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
+
 	var db *sqlx.DB
 
 	db, err := sqlx.Connect("postgres", "postgres://ibpfcwfnmikxmw:5f6f81e84894399cc02a1ad09a6a663d21d448e9b4cbe2897d5fc75817818d3a@ec2-54-83-9-36.compute-1.amazonaws.com:5432/dfh945lu8avc08")
@@ -113,5 +119,5 @@ func main() {
 		return c.JSON(http.StatusOK, wrestler)
 	})
 
-	e.Logger.Fatal(e.Start(os.Getenv("PORT")))
+	e.Logger.Fatal(e.Start(":" + port))
 }
