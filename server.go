@@ -70,7 +70,7 @@ func main() {
 
 	var db *sqlx.DB
 
-	db, err := sqlx.Connect("postgres", "postgres://ibpfcwfnmikxmw:5f6f81e84894399cc02a1ad09a6a663d21d448e9b4cbe2897d5fc75817818d3a@ec2-54-83-9-36.compute-1.amazonaws.com:5432/dfh945lu8avc08")
+	db, err := sqlx.Connect("postgres", os.Getenv("DB_URI"))
 
 	if err != nil {
 		log.Fatalln(err)

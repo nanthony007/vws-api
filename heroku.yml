@@ -1,0 +1,7 @@
+setup:
+  config:
+    DB_URI: postgres://ibpfcwfnmikxmw:5f6f81e84894399cc02a1ad09a6a663d21d448e9b4cbe2897d5fc75817818d3a@ec2-54-83-9-36.compute-1.amazonaws.com:5432/dfh945lu8avc08
+
+build:
+  docker:
+    web: Dockerfile
