@@ -1,7 +1,2 @@
 language: go
-script: go test -v .
-
-notificiations:
-  slack:
-    rooms:
-      secure: VGfbMM1dwu/4bmJbCf/pJ9gjBLVlDrOpYrS4nsTfBvqxWzVvu5raeFaG38LzDu/lPX1DD92r/cnv57IY55G/NzlOxyZUHYd+rmrb+Mkw+hpavYVB8REoHLbEdSFJysnTqFce0/C9uQv+hlUYjK9eekLqrKcWBJhbAjWtNbmGMeFzf7lTZe7+Aif6Q8jFZe7ALO4h7OcUxJ9QD9Vz/JrN+yQVcC5noSDqJnHEH/jBOnvo8+XoTfumLENa4Jf0RM3Usmq5Y0LFN0SoqvV9bhylj+DNCgyCTFRsj23zZ1uydrC0FAeDdHKRw5hB7l74FpxwzhSu/NFDcLTkl9iz1FVuWvevPWQTNX2DHKnmDy6eTwImBa/ZEXZtZdcpJFjHZ2mtp2g3JSyiyYOyzNk9fUtmZwJdc6pjaE6m6AQm3W+d2Uz3IHzUxJgKYzNkyF+tR8wCIW643LRUa10WuIQ4+sfYdPfToOT9541oF4NF+tnpsSG2uD+sLHLw3Qi76n7nEGS1osbyWzsKxPiWf7NrvQjSMNEtY40fN6/8aIEFJnkMNF1HhAXg9ETWVTTP/to9bDqHC0gt0nED9pinHwNWZNx9lwqBrreolyX7fs4R7EoXLNrihBLkSrtU4Nod9pUiRqEnJ1OjVNP9GJ2bvliGSAsLLAKxSQ154JVlQIbJp+iMVlY=
+script: go test tests/main_test.go
