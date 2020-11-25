@@ -5,7 +5,7 @@ before_install: docker build -t vws-api .
 deploy:
   provider: heroku
   api_key:
-    secure: YCJTETcHtM2zLiJyOGgZuMbDex3eDZpch8lH19uLJADpmhd0Hiv2BHhDK3ler5/03rwiUmH7FTH5Md7CTIfS/uoEiTtkm7LBfRmjLRSYeAKjMHlNX3s4M41GRqelcxEV+Xz29I3bPZ1eTlpfP5SfCTHLMnexEZ+NisEXsvaKcNb3zBVv/RvKji8dgZiBXk6Teos5dH9hTy8PQBDUlvWI9olay7aYJ/ENslNwQg2EacK+eEulxGTg9ApNcXOi/aP/OMzrifDr7Voy40V865Wpd3B2QTeRbGsiggWPMMTcPvEypSduc260ZYFBZcVKGJ+QhZnT/dtbcGOlUuJdxsWlQwmLad7Y5fMcTxo/GKmikrv3dWK2omPy1EpdVCi+wGYxR2/vHVYE/TIgq7HRUGtVEvGokf+3ISg5a1rCbRKoYE9OPnl7rBPed2dEDXR/Cf5JPi3FL24caoF4kBfpHAqfw5M/DrX1ocEp9q9+JfUJd0VnHg3NTd3dMBXN7sjlyLfEkLdDH8JcRojNrwrfkyDlnXFUHAsTgEW9yT0J2JCCnbPwdGWKcUdpjf9TzyeLLHkDDhxSZ1HvupfffKPoA29HExWUVarI7dJpiEnemGmEixEeHRYrenYSD6dXR3SrhbGtiLOC3ktxbKnK30hd6Qvxq5PbAhFxHEuT4SlPoVT4+Ik=
+    secure: 9ba901d3-7170-4448-bb57-c8c684598fd6
   app: vws-api
   on:
     repo: nanthony007/vws-api
