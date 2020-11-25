@@ -2,6 +2,7 @@ language: go
 notifications:
   slack:
     if: branch = main
+script: go test -v ./...
 deploy:
   provider: heroku
   api_key:
