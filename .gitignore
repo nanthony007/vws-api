@@ -13,3 +13,7 @@ build/
 *.egg-info/
 
 .vscode.env
+vendor
+bin*
+.env
+.env
