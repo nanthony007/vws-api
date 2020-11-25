@@ -24,4 +24,4 @@ web:
 		--publish "3000:8080" 
 
 
-.DEFAULT_GOAL := test
+#.DEFAULT_GOAL := test
