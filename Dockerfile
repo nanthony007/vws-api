@@ -19,7 +19,7 @@ RUN go mod download
 COPY . .
 
 # Build the Go app
-RUN go build -o vws-main 
+RUN go build -o vws-api 
 
 # Expose port 8080 to the outside world
 EXPOSE 8080
