@@ -1,5 +1,13 @@
 language: go
-
 notifications:
   slack:
     if: branch = main
+deploy:
+  provider: heroku
+  api_key:
+    secure: Ai2bXwTsxYuHMFaQ206h5RkGEvImWR6pTNv/KY/gxtVHhzlxwRHxKU3groi7jUltEh7bgPs8eVqvqZ73foYuZb30naZ86QbATJktPgzZ3KTC7mKYwEhT1or/STkTzhIgpRZ/AK4gsh/dMj3YmyLO1LGyB1e38CJu/9hgjR2ZO27c5IhOcwn9yJ6JAM8Nxx3kvgXBOYvlYrHeF+dG7zuGNiLUdBSxbv9BgGPOPX3eF0FDUjZLWNqXL+fWp5EVT9wY7VOsyqdeV8Pb9BuKiRY8hNAfBUR+OsFpMAenFyNYE5lMVPCVsbuo7bkXFJ3brUXGi08WT5UUIXDzOf4N7/8sY4d364AcNet9Qmm71gaY84c/fuY/UHCtHCMeO+qL8/2pUKOvxDo/A4C0PlV6F7V36FDc++MJqdW8fUt3lZXCQ6EqKlJxSvNPZkdyDZ5OFBiI3x7izePI5A7kdmHCgy5YZP+dIS+NoeF2xLRb5z6j/BG6BgZaioPcXdgiOWMBRV07pTMg0U26dptTzHTfY9UX/rjl0Xw8W3P8SXma2Mo/IRE3pkSQvTeACktHqOU2n7iT3c6wDiuOjT5ijNk0rNC03O/oMhFB7n4i7dTKNi6EfYRThvAbam/6o1FJeoPhhKvJnL+OYr85GImQKtXeppkWJKw3lfM0Y1FlyNfa6J94brM=
+  app: vws-api
+  on:
+    repo: nanthony007/vws-api
+    branch: main
+  skip_cleanup: 'true'
