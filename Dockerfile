@@ -1,10 +1,10 @@
 # Dockerfile References: https://docs.docker.com/engine/reference/builder/
 
 # Start from the latest golang base image
-FROM golang:latest
+FROM golang:alpine
 
 # Add Maintainer Info
-LABEL maintainer="Rajeev Singh <rajeevhub@gmail.com>"
+LABEL maintainer="Nick Anthony <nanthony007@gmail.com>"
 
 # Set the Current Working Directory inside the container
 WORKDIR /app
