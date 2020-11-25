@@ -1,36 +1,28 @@
-FROM golang:alpine AS builder
+# Dockerfile References: https://docs.docker.com/engine/reference/builder/
 
-# Set necessary environmet variables needed for our image
-ENV GO111MODULE=on \
-    CGO_ENABLED=0 \
-    GOOS=linux \
-    GOARCH=amd64
+# Start from the latest golang base image
+FROM golang:latest
 
-# Move to working directory /build
-WORKDIR /build
+# Add Maintainer Info
+LABEL maintainer="Rajeev Singh <rajeevhub@gmail.com>"
 
-# Copy and download dependency using go mod
-COPY go.mod .
-COPY go.sum .
+# Set the Current Working Directory inside the container
+WORKDIR /app
+
+# Copy go mod and sum files
+COPY go.mod go.sum ./
+
+# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
 RUN go mod download
 
-# Copy the code into the container
+# Copy the source from the current directory to the Working Directory inside the container
 COPY . .
 
-# Build the application
+# Build the Go app
 RUN go build -o main .
 
-# Move to /dist directory as the place for resulting binary folder
-WORKDIR /dist
+# Expose port 8080 to the outside world
+EXPOSE 8080
 
-# Copy binary from build to main folder
-RUN cp /build/main .
-
-# Build a small image
-FROM scratch
-
-COPY --from=builder /dist/main /
-ENV PORT=8080
-ENV DB_URI=postgres://ibpfcwfnmikxmw:5f6f81e84894399cc02a1ad09a6a663d21d448e9b4cbe2897d5fc75817818d3a@ec2-54-83-9-36.compute-1.amazonaws.com:5432/dfh945lu8avc08
-# Command to run
-ENTRYPOINT ["/main"]
+# Command to run the executable
+CMD ["./main"]
