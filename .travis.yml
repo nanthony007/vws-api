@@ -1,13 +1,5 @@
 language: go
-services:
-  - docker
-before_install: docker build -t vws-api .
-deploy:
-  provider: heroku
-  api_key:
-    secure: 9ba901d3-7170-4448-bb57-c8c684598fd6
-  app: vws-api
-  on:
-    repo: nanthony007/vws-api
-    branch: main
-  skip_cleanup: 'true'
+
+notifications:
+  slack:
+    if: branch = main
