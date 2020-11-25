@@ -1,14 +1,7 @@
 language: go
-notifications:
+script: go test -v .
+
+notificiations:
   slack:
-    if: branch = main
-script: go test -v ./...
-deploy:
-  provider: heroku
-  api_key:
-    secure: H2gjdX+rE86tG9cRuARbxBIJhbuPvGUe8TB/MDCFrMqvanVPPQ1gnlyj3n1swjHkCFf02zZsL5bdY8QK3CgjOyOs81oZXwxZMoKkjIdKC68JOIbX+m71CNiLcCIUAXwOC/jcWFYVQmj2OSY3Ya0fOaKFzVH3xkZncw6BYQvijPPCSGiPtSZsWyRn4AREC04IXu3GetQYYlEO7lWv4+uMly+oWEgRgV86/UtlMuXpIx/5mvqTjsYQnoZ2M9FTTiJtvZdMtPYtg675oLfz3UnsY29RRwDZzJ0uyzIA4vRpZg5T3Ozpo+so8SAVO7l7BzQPkT+TfEwZp2POjfK/2Q7KOIbtSyIq8tjClCNlVO713aqqIoo1E8cNBVBdPY6kT4TfvD0FeSn6thJqgBLKiWFEGYOgdQT4ow1VQyHGowhstGcG4KRE7L7AMOJVi5E6oM8zSwt6ruISoeACpard8MsTnrBHta1n6AaBOi7lPzwnidzxsy9ZB4wOy3T32Q53ngSK+FQE0VDsfHl7NY2fTKjw81wvl6aZ4FRM674kx0ddGV0CglGiR+X3Jb0FkcLdj2xcDB0nOLNPCMUWLIReeh8BxXHOh5yKNzpUoUlMeye/GX0OA/0Gm3dMlSmbDLZtaecBZdogl4Cw537N8jnrq94MFxpt7VwyvR0vLDgDtG9AVXk=
-  app: vws-api
-  on:
-    repo: nanthony007/vws-api
-    branch: main
-  skip_cleanup: 'true'
+    rooms:
+      secure: VGfbMM1dwu/4bmJbCf/pJ9gjBLVlDrOpYrS4nsTfBvqxWzVvu5raeFaG38LzDu/lPX1DD92r/cnv57IY55G/NzlOxyZUHYd+rmrb+Mkw+hpavYVB8REoHLbEdSFJysnTqFce0/C9uQv+hlUYjK9eekLqrKcWBJhbAjWtNbmGMeFzf7lTZe7+Aif6Q8jFZe7ALO4h7OcUxJ9QD9Vz/JrN+yQVcC5noSDqJnHEH/jBOnvo8+XoTfumLENa4Jf0RM3Usmq5Y0LFN0SoqvV9bhylj+DNCgyCTFRsj23zZ1uydrC0FAeDdHKRw5hB7l74FpxwzhSu/NFDcLTkl9iz1FVuWvevPWQTNX2DHKnmDy6eTwImBa/ZEXZtZdcpJFjHZ2mtp2g3JSyiyYOyzNk9fUtmZwJdc6pjaE6m6AQm3W+d2Uz3IHzUxJgKYzNkyF+tR8wCIW643LRUa10WuIQ4+sfYdPfToOT9541oF4NF+tnpsSG2uD+sLHLw3Qi76n7nEGS1osbyWzsKxPiWf7NrvQjSMNEtY40fN6/8aIEFJnkMNF1HhAXg9ETWVTTP/to9bDqHC0gt0nED9pinHwNWZNx9lwqBrreolyX7fs4R7EoXLNrihBLkSrtU4Nod9pUiRqEnJ1OjVNP9GJ2bvliGSAsLLAKxSQ154JVlQIbJp+iMVlY=
