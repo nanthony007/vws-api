@@ -1,2 +1,0 @@
-language: go
-script: go test tests/main_test.go
