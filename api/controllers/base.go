@@ -2,7 +2,9 @@ package controllers
 
 import (
 	"fmt"
+	"github.com/nanthony007/vws-api/api/models"
 	"log"
+	"net/http"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/joho/godotenv"
@@ -48,4 +50,29 @@ func (server *Server) Run(addr string) {
 	}
 	fmt.Println("Listening to port 8080")
 	log.Fatal(server.Router.Start(addr))
+}
+
+// Home returns a JSON welcome message on the server.
+func (s *Server) Home(c echo.Context) error {
+	return c.JSON(http.StatusOK, "Welcome To This Awesome API")
+}
+
+// GetWrestlers queries the db and returns json results.
+func (s *Server) GetWrestlers(c echo.Context) error {
+
+	limit := c.QueryParam("limit")
+	if limit == "" {
+		limit = "10"
+	} else if limit == "-1" {
+		limit = ""
+	}
+
+	wrestler := models.WrestlerInfo{}
+
+	wrestlers, err := wrestler.FindWrestlers(s.DB, limit)
+	if err != nil {
+		fmt.Println(err)
+		return c.JSON(http.StatusInternalServerError, wrestler)
+	}
+	return c.JSON(http.StatusOK, wrestlers)
 }
